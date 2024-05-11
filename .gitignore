@@ -1,0 +1,8 @@
+elpaca/
+org-persist/
+eshell/
+auto-save-list/
+server/
+recentf
+*.org~
+*.el~
