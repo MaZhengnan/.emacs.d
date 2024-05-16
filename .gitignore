@@ -4,5 +4,7 @@ eshell/
 auto-save-list/
 server/
 recentf
+*.cache
+*.eld
 *.org~
 *.el~
