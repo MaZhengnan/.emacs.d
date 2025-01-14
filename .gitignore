@@ -1,10 +1,8 @@
-elpaca/
-org-persist/
-eshell/
+# folders
+.git/
 auto-save-list/
-server/
-recentf
-*.cache
-*.eld
-*.org~
+elpa/
+
+# files
 *.el~
+
