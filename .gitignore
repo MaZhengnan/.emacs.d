@@ -2,7 +2,11 @@
 .git/
 auto-save-list/
 elpa/
+org-persist/
+transient/
 
 # files
 *.el~
-
+*.eld
+*.cache
+*.org~
