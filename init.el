@@ -23,7 +23,7 @@
 (set-face-attribute 'fixed-pitch nil :font "FiraMono Nerd Font" :height 130)
 
 ;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
+;;(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
 
 ;;(load-theme 'wombat)
 (column-number-mode)
@@ -171,8 +171,9 @@
   :ensure t
   :config
   (evil-escape-mode 1)
-  (setq evil-escape-key-sequence "jk"     ;; Define the key sequence
-        evil-escape-unordered-key-sequence t)) ;; Allow unordered key sequence if desired
+  (setq evil-escape-key-sequence "jk")     ;; Define the key sequence
+  (setq evil-escape-delay 0.3)  ;; 将0.3秒改为你需要的时间间隔
+  evil-escape-unordered-key-sequence t) ;; Allow unordered key sequence if desired
 
 (use-package hydra)
 
@@ -233,12 +234,13 @@
 (use-package forge)
 
 
+;; Org Mode Configuration ------------------------------------------------------
 (defun efs/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
   (visual-line-mode 1))
 
-;; Org Mode Configuration ------------------------------------------------------
+
 
 (defun efs/org-font-setup ()
   ;; Replace list hyphen with dot
@@ -247,16 +249,16 @@
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
   ;; Set faces for heading levels
-  (dolist (face '((org-level-1 . 1.3)
+  (dolist (face '((org-level-1 . 1.2)
                   (org-level-2 . 1.1)
-                  (org-level-3 . 1.1)
-                  (org-level-4 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
                   (org-level-5 . 1.1)
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
-
+    (set-face-attribute (car face) nil :font "FiraMono Nerd Font" :weight 'regular :height (cdr face)))
+      ;;(set-face-attribute (car face) nil :height (cdr face))) 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
@@ -270,14 +272,13 @@
   :hook (org-mode . efs/org-mode-setup)
   :config
   (setq org-ellipsis " ▾")
-  (setq org-hide-emphasis-markers t)
   (efs/org-font-setup))
 
 (use-package org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●" "○")))
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (defun efs/org-mode-visual-fill ()
   (setq visual-fill-column-width 100
