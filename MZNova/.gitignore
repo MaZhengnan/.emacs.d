@@ -1,0 +1,11 @@
+auto-save-list/
+elpaca/
+elpa/
+eshell/
+org-persist/
+*.org~
+config.el
+recentf
+sessions
+*.eld
+.lsp-session-v1

@@ -1,27 +1,87 @@
-* My Emacs Configuration
- add some content!
- 
-** first ff
-- adf
-- df
-- dffs
-[ x ] dfs fs
+#+TITLE: MZNexus Emacs Confituration
+#+AUTHOR: Ma Zhengnan (MZN)
+#+DESCRIPTION: MZNexus Emacs config include MZNova and MZNeon now.
+#+STARTUP: showeverything
+#+OPTIONS: toc:2
 
-asdjfskfjkjk
+* Table of Contents :toc:
+- [[#introduction][Introduction]]
+- [[#mznexus][MZNexus]]
+- [[#mznova][MZNova]]
+- [[#mzneon][MZNeon]]
+- [[#how-to-ues-chemacs-2][How to ues =Chemacs 2=]]
+- [[#name-my-emacs-configuration][Name my Emacs configuration]]
 
-*** second
+* Introduction
+I use =Macos=, =Linux= and =Windows=. My configuration needs to be compatible with three systems.
+  
+* MZNexus
+=MZNexus= is a multiple emacs configuration project.
+And I am using [[https://github.com/plexus/chemacs2/tree/main][Chemacs 2]] as Emacs profile switcher, it makes it easy to run multiple Emacs configurations side by side. Here I also refer to [[https://systemcrafters.net/emacs-tips/multiple-configurations-with-chemacs2/][System Crafters' blog post]].
+It is include =MZNova= and =MZNeon=.
 
- add *some* content
- 
-* Features
- dfdfsdf
-** dfs f
-dsf sd f
-** dfs s
-*** dfs
-**** dfsd
-**** gfg 
-********  df s
-***
-****  ghf
-* 
+* MZNova
+It is a stable part for me now. But it is not very suitable for me. So I descide to do my own configuration.
+This configuration is based [[https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/emacs/config.org?ref_type=heads#dashboard][Derek Taylor's repository]] and [[https://www.youtube.com/@DistroTube][Derek Taylor's youtube homepage]].
+
+* MZNeon
+I want to make an emacs configuration which is suitable for me for a long time. But I can't make it well. Because I can't understand many things about =elisp= and so many functions, variables and so on based on emacs. 
+Now I can understand a little, so I want to do it.
+I really like [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]] UI interface and font settings. Also, it is very suitable for me, because it has all I need.
+But I like to use =evil mode= in emacs, it's a pity he didn't use it. So I want to config my own emacs based on =Centaur Emacs=.
+
+* How to ues =Chemacs 2=
+I make some changes to =Chemacs 2=
+1. I change some elisp file name and variable/function name.
+   - ~chemacs.el~ --> ~multi-emacs.el~.
+   - Then I change ~chemacs~ in files to ~multi-emacs~.
+   - In =init.el= and =early-init.el=, I change the code below.
+     #+begin_src elisp 
+;;early-init.el
+ (require 'multi-emacs
+         (expand-file-name "multi-emacs.el"
+                           (file-name-directory
+                            (file-truename load-file-name))))
+(multi-emacs-load-user-early-init)
+     #+end_src
+   
+     #+begin_src elisp
+;; init.el
+(require 'multi-emacs
+         (expand-file-name "multi-emacs.el"
+                           (file-name-directory
+                            (file-truename load-file-name))))
+(multi-emacs-load-user-init)
+     #+end_src
+2. I change the path of it. I want to make all my configuration in the =~/.emacs.d= folder.
+   - Change the code in =multi-emacs.el(chemacs.el)=
+#+begin_src elisp
+;; multi-emacs.el
+(defvar multi-emacs-profiles-paths (list "~/.emacs.d/multi-profiles.el" (format "%s/%s" config-home "multi-emacs/profiles.el")))
+#+end_src
+   - In =init.el= and =early-init.el=, 
+From
+#+begin_src elisp
+(("default" . ((user-emacs-directory . "~/.emacs.d")))
+ ("spacemacs" . ((user-emacs-directory . "~/spacemacs")))
+ ("prelude" . ((user-emacs-directory . "~/prelude"))))
+#+end_src
+to
+#+begin_src elisp
+(("Neon" . ((user-emacs-directory . "~/.emacs.d/MZNeon")))
+("Nova" . ((user-emacs-directory . "~/.emacs.d/MZNova"))))
+#+end_src
+
+* Name my Emacs configuration
+
+*MZNexus* - Combining your initials with Nexus means a powerful and centralized configuration center.
+
+*MZNight* - This name gives a mysterious and profound feeling, suitable for a powerful configuration.
+
+*MZNova* - Nova stands for new star, symbolizing that your configuration is full of novel features and highlights.
+
+*MZNeon* - Neon is modern and technological, very cool.
+
+*MZNinja* - Emphasizes that your configuration is agile and efficient, just like a ninja.
+
+*MZMatrix* - Matrix is ​​reminiscent of science fiction movies, very cool and full of technology.
