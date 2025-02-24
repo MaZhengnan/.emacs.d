@@ -1,14 +1,9 @@
 ;;; init.el --- A Fancy and Fast Emacs Configuration.	-*- lexical-binding: t no-byte-compile: t -*-
-
-;; Centaur Emacs - A Fancy and Fast Emacs Configuration.
-;;
-
-
+;; MZNeon Emacs - A Fancy and Fast Emacs Configuration.
 ;;; Code:
 
 (when (version< emacs-version "27.1")
   (error "This requires Emacs 27.1 and above!"))
-
 ;;
 ;; Speed up startup
 ;;
@@ -44,15 +39,28 @@
 (defun add-subdirs-to-load-path (&rest _)
   "Add subdirectories to `load-path'.
 
-Don't put large files in `site-lisp' directory, e.g. EAF.
-Otherwise the startup will be very slow."
+Don't put large files in `site-lisp` directory, e.g., EAF.
+Otherwise, the startup will be very slow."
   (let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
+    (normal-top-level-add-subdirs-to-load-path))
+  (let ((default-directory (expand-file-name "lisp" user-emacs-directory)))
     (normal-top-level-add-subdirs-to-load-path)))
 
 (advice-add #'package-initialize :after #'update-load-path)
 (advice-add #'package-initialize :after #'add-subdirs-to-load-path)
 
 (update-load-path)
+;; Requisites
+(require 'init-const)
+(require 'init-custom)
+(require 'init-funcs)
 
-;;(require 'init-const)
+;; Packages
+;; Without this comment Emacs25 adds (package-initialize) here
 (require 'init-package)
+
+;; Proxy
+(require 'init-proxy)
+;; Preferences
+(require 'init-base)
+(require 'init-ui)

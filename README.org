@@ -9,17 +9,28 @@
 - [[#mznexus][MZNexus]]
 - [[#mznova][MZNova]]
 - [[#mzneon][MZNeon]]
+  - [[#proxy-set-up][Proxy set up]]
+  - [[#transient][transient]]
+  - [[#the-list-of-elpaca-cannot-download-packages][The list of Elpaca cannot download packages]]
 - [[#how-to-ues-chemacs-2][How to ues =Chemacs 2=]]
 - [[#name-my-emacs-configuration][Name my Emacs configuration]]
 
 * Introduction
 I use =Macos=, =Linux= and =Windows=. My configuration needs to be compatible with three systems.
   
+#+begin_src shell
+emacs --with-profile=Neon
+emacs --with-profile=Nova
+
+sh install.sh # run .sh file in windows terminal.
+#+end_src
 * MZNexus
 =MZNexus= is a multiple emacs configuration project.
 And I am using [[https://github.com/plexus/chemacs2/tree/main][Chemacs 2]] as Emacs profile switcher, it makes it easy to run multiple Emacs configurations side by side. Here I also refer to [[https://systemcrafters.net/emacs-tips/multiple-configurations-with-chemacs2/][System Crafters' blog post]].
 It is include =MZNova= and =MZNeon=.
 
+I use [[https://github.com/progfolio/elpaca][elpaca]] as my emacs package manager.
+ 
 * MZNova
 It is a stable part for me now. But it is not very suitable for me. So I descide to do my own configuration.
 This configuration is based [[https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/emacs/config.org?ref_type=heads#dashboard][Derek Taylor's repository]] and [[https://www.youtube.com/@DistroTube][Derek Taylor's youtube homepage]].
@@ -29,6 +40,36 @@ I want to make an emacs configuration which is suitable for me for a long time. 
 Now I can understand a little, so I want to do it.
 I really like [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]] UI interface and font settings. Also, it is very suitable for me, because it has all I need.
 But I like to use =evil mode= in emacs, it's a pity he didn't use it. So I want to config my own emacs based on =Centaur Emacs=.
+
+** Proxy set up
+When I download =nerd icons= in emacs, I get the message ~Contacting Host: githubusercontenting.com: 443~.
+So I need to setting up the proxy in emacs.
+
+** transient
+When I use the package =transient-posframe=, I get an error.
+#+begin_src elisp
+transient-posframe             failed               transient installed version (0 4 3) lower than min required 0.8.2                06.668961
+#+end_src
+Maybe I need to use =transiemt= package advanced.
+
+** The list of Elpaca cannot download packages
+- =savepalce= 
+It is some error generate when install the package =saveplace=, so I delete the package in =init-base.el=. 
+#+begin_src elisp
+;; Save place
+(use-package saveplace
+  :hook (after-init . save-place-mode))
+#+end_src
+
+Error is
+#+begin_src elisp
+saveplace                      failed               Unable to determine repo dir: (error "Cannot determine URL from recipe: (:source nil :protocol https :inherit t :depth treeless :package \"saveplace\")") 00.1663
+#+end_src
+
+- =recentf= in =init-base.el=
+- =time= in =init-ui.el=, line number is about ~187~
+
+
 
 * How to ues =Chemacs 2=
 I make some changes to =Chemacs 2=

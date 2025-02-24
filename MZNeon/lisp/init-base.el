@@ -37,8 +37,8 @@
 (use-package compat :demand t)
 
 ;; Personal information
-(setq user-full-name centaur-full-name
-      user-mail-address centaur-mail-address)
+(setq user-full-name mzneon-full-name
+      user-mail-address mzneon-mail-address)
 
 (with-no-warnings
   ;; Key Modifiers
@@ -113,40 +113,12 @@
     :custom (exec-path-from-shell-arguments '("-l"))
     :init (exec-path-from-shell-initialize)))
 
-;; Start server
-(use-package server
-  :if centaur-server
-  :hook (after-init . server-mode))
-
 ;; Save place
-(use-package saveplace
-  :hook (after-init . save-place-mode))
+;;(use-package saveplace
+;;  :hook (after-init . save-place-mode))
 
 ;; History
-(use-package recentf
-  :bind (("C-x C-r" . recentf-open-files))
-  :hook (after-init . recentf-mode)
-  :init (setq recentf-max-saved-items 300
-              recentf-exclude
-              '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
-                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
-                "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
-                "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
-                (lambda (file) (file-in-directory-p file package-user-dir))))
-  :config
-  (push (expand-file-name recentf-save-file) recentf-exclude)
-  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
-
-(use-package savehist
-  :hook (after-init . savehist-mode)
-  :init (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
-              history-length 1000
-              savehist-additional-variables '(mark-ring
-                                              global-mark-ring
-                                              search-ring
-                                              regexp-search-ring
-                                              extended-command-history)
-              savehist-autosave-interval 300))
+;; Here is the `recentf' package before, but `elpaca' package manager can't download it.  
 
 ;; Misc.
 (use-package simple
@@ -225,11 +197,11 @@
   ;; Resize and re-position frames conveniently
   ;; Same keybindings as Rectangle on macOS
   (bind-keys ("C-M-<return>"    . centaur-frame-maximize)
-             ("C-M-<backspace>" . centaur-frame-restore)
-             ("C-M-<left>"      . centaur-frame-left-half)
-             ("C-M-<right>"     . centaur-frame-right-half)
-             ("C-M-<up>"        . centaur-frame-top-half)
-             ("C-M-<down>"      . centaur-frame-bottom-half)))
+             ("C-M-<backspace>" . mzneon-frame-restore)
+             ("C-M-<left>"      . mzneon-frame-left-half)
+             ("C-M-<right>"     . mzneon-frame-right-half)
+             ("C-M-<up>"        . mzneon-frame-top-half)
+             ("C-M-<down>"      . mzneon-frame-bottom-half)))
 
 (provide 'init-base)
 

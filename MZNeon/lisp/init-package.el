@@ -5,7 +5,7 @@
   (require 'init-custom)
   (require 'init-funcs))
 
-(defvar elpaca-installer-version 0.9)
+(defvar elpaca-installer-version 0.10)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -51,7 +51,7 @@
 
 ;; Block until current queue processed.
 (elpaca-wait)
-
-(provide 'elpaca-setup)
+(require 'package)
+(provide 'init-package)
 
 ;;; elpaca-setup.el ends here

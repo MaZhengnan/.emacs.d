@@ -154,17 +154,17 @@ Same as '`replace-string' `C-q' `C-m' `RET' `RET''."
     (thing-at-point 'symbol t)))
 
 ;; Browse URL
-(defun centaur-browse-url (url)
+(defun mzneon-browse-url (url)
   "Open URL using a configurable method.
 See `browse-url' for more details."
   (interactive (progn
                  (require 'browse-url)
                  (browse-url-interactive-arg "URL: ")))
   (if (and (featurep 'xwidget-internal) (display-graphic-p))
-      (centaur-webkit-browse-url url t)
+      (mzneon-webkit-browse-url url t)
     (browse-url url)))
 
-(defun centaur-webkit-browse-url (url &optional pop-buffer new-session)
+(defun mzneon-webkit-browse-url (url &optional pop-buffer new-session)
   "Browse URL with xwidget-webkit' and switch or pop to the buffer.
   POP-BUFFER specifies whether to pop to the buffer.
   NEW-SESSION specifies whether to create a new xwidget-webkit session.
@@ -194,26 +194,26 @@ See `browse-url' for more details."
   "Reload Emacs configurations."
   (interactive)
   (load user-init-file))
-(defalias 'centaur-reload-init-file #'reload-init-file)
+(defalias 'mzneon-reload-init-file #'reload-init-file)
 
 ;; Browse the homepage
 (defun browse-homepage ()
-  "Browse the Github page of Centaur Emacs."
+  "Browse the Github page of Mzneon Emacs."
   (interactive)
-  (browse-url centaur-homepage))
+  (browse-url mzneon-homepage))
 
 ;; Open custom file
 (defun find-custom-file()
   "Open custom files."
   (interactive)
   (unless (file-exists-p custom-file)
-    (if (file-exists-p centaur-custom-example-file)
-        (copy-file centaur-custom-example-file custom-file)
-      (user-error "The file `%s' doesn't exist" centaur-custom-example-file)))
+    (if (file-exists-p mzneon-custom-example-file)
+        (copy-file mzneon-custom-example-file custom-file)
+      (user-error "The file `%s' doesn't exist" mzneon-custom-example-file)))
   (when (file-exists-p custom-file)
     (find-file custom-file))
-  (when (file-exists-p centaur-custom-post-file)
-    (find-file-other-window centaur-custom-post-file)))
+  (when (file-exists-p mzneon-custom-post-file)
+    (find-file-other-window mzneon-custom-post-file)))
 
 ;; Misc
 (defun byte-compile-elpa ()
@@ -246,18 +246,18 @@ See `browse-url' for more details."
 
 (defun icons-displayable-p ()
   "Return non-nil if icons are displayable."
-  (and centaur-icon
+  (and mzneon-icon
        (or (featurep 'nerd-icons)
            (require 'nerd-icons nil t))))
 
-(defun centaur-treesit-available-p ()
+(defun mzneon-treesit-available-p ()
   "Check whether tree-sitter is available.
   Native tree-sitter is introduced since 29.1."
-  (and centaur-tree-sitter
+  (and mzneon-tree-sitter
        (fboundp 'treesit-available-p)
        (treesit-available-p)))
 
-(defun centaur-set-variable (variable value &optional no-save)
+(defun mzneon-set-variable (variable value &optional no-save)
   "Set the VARIABLE to VALUE, and return VALUE.
 
   Save to option `custom-file' if NO-SAVE is nil."
@@ -280,11 +280,11 @@ See `browse-url' for more details."
       (and (fboundp 'buffer-line-statistics)
            (> (car (buffer-line-statistics)) 10000))))
 
-(define-minor-mode centaur-read-mode
+(define-minor-mode mzneon-read-mode
   "Minor Mode for better reading experience."
   :init-value nil
-  :group centaur
-  (if centaur-read-mode
+  :group mzneon
+  (if mzneon-read-mode
       (progn
         (and (fboundp 'olivetti-mode) (olivetti-mode 1))
         (and (fboundp 'mixed-pitch-mode) (mixed-pitch-mode 1))
@@ -331,7 +331,7 @@ This issue has been addressed in 28."
 
 ;; Update
 (defun update-config ()
-  "Update Centaur Emacs configurations to the latest version."
+  "Update Mzneon Emacs configurations to the latest version."
   (interactive)
   (let ((dir (expand-file-name user-emacs-directory)))
     (unless (file-exists-p dir)
@@ -341,7 +341,7 @@ This issue has been addressed in 28."
     (cd dir)
     (shell-command "git pull")
     (message "Updating configurations...done")))
-(defalias 'centaur-update-config #'update-config)
+(defalias 'mzneon-update-config #'update-config)
 
 (defun update-packages ()
   "Refresh package contents and update all packages."
@@ -349,14 +349,14 @@ This issue has been addressed in 28."
   (message "Updating packages...")
   (package-upgrade-all)
   (message "Updating packages...done"))
-(defalias 'centaur-update-packages #'update-packages)
+(defalias 'mzneon-update-packages #'update-packages)
 
 (defun update-config-and-packages()
   "Update confgiurations and packages."
   (interactive)
   (update-config)
   (update-packages))
-(defalias 'centaur-update #'update-config-and-packages)
+(defalias 'mzneon-update #'update-config-and-packages)
 
 (defun update-dotfiles ()
   "Update the dotfiles to the latest version."
@@ -370,7 +370,7 @@ This issue has been addressed in 28."
           (shell-command "git pull")
           (message "Updating dotfiles...done"))
       (message "\"%s\" doesn't exist" dir))))
-(defalias 'centaur-update-dotfiles #'update-dotfiles)
+(defalias 'mzneon-update-dotfiles #'update-dotfiles)
 
 (defun update-org ()
   "Update Org files to the latest version."
@@ -383,7 +383,7 @@ This issue has been addressed in 28."
           (shell-command "git pull")
           (message "Updating org files...done"))
       (message "\"%s\" doesn't exist" dir))))
-(defalias 'centaur-update-org #'update-org)
+(defalias 'mzneon-update-org #'update-org)
 
 (defun update-all()
   "Update dotfiles, org files, configurations and packages to the latest."
@@ -391,11 +391,11 @@ This issue has been addressed in 28."
   (update-org)
   (update-dotfiles)
   (update-config-and-packages))
-(defalias 'centaur-update-all #'update-all)
+(defalias 'mzneon-update-all #'update-all)
 
 
 ;; Fonts
-(defun centaur-install-fonts ()
+(defun mzneon-install-fonts ()
   "Install necessary fonts."
   (interactive)
   (nerd-icons-install-fonts))
@@ -419,48 +419,48 @@ This issue has been addressed in 28."
 
 (defun childframe-completion-workable-p ()
   "Whether childframe completion is workable."
-  (and (eq centaur-completion-style 'childframe)
+  (and (eq mzneon-completion-style 'childframe)
        (childframe-workable-p)))
 
-(defun centaur--theme-name (theme)
+(defun mzneon--theme-name (theme)
   "Return internal THEME name."
-  (or (alist-get theme centaur-theme-alist) theme 'doom-one))
+  (or (alist-get theme mzneon-theme-alist) theme 'doom-one))
 
-(defun centaur-compatible-theme-p (theme)
+(defun mzneon-compatible-theme-p (theme)
   "Check if the THEME is compatible. THEME is a symbol."
   (or (memq theme '(auto random system))
-      (string-prefix-p "doom" (symbol-name (centaur--theme-name theme)))))
+      (string-prefix-p "doom" (symbol-name (mzneon--theme-name theme)))))
 
-(defun centaur-dark-theme-p ()
+(defun mzneon-dark-theme-p ()
   "Check if the current theme is a dark theme."
   (eq (frame-parameter nil 'background-mode) 'dark))
 
-(defun centaur-theme-enable-p (theme)
+(defun mzneon-theme-enable-p (theme)
   "The THEME is enabled or not."
   (and theme
-       (not (memq centaur-theme '(auto random system)))
-       (memq (centaur--theme-name theme) custom-enabled-themes)))
+       (not (memq mzneon-theme '(auto random system)))
+       (memq (mzneon--theme-name theme) custom-enabled-themes)))
 
-(defun centaur--load-theme (theme)
+(defun mzneon--load-theme (theme)
   "Disable others and enable new THEME."
-  (when-let* ((theme (centaur--theme-name theme)))
+  (when-let* ((theme (mzneon--theme-name theme)))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t)))
 
-(defun centaur--load-system-theme (appearance)
+(defun mzneon--load-system-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
-  (centaur--load-theme (alist-get appearance centaur-system-themes)))
+  (mzneon--load-theme (alist-get appearance mzneon-system-themes)))
 
-(defun centaur-load-random-theme ()
+(defun mzneon-load-random-theme ()
   "Load the random theme."
   (interactive)
-  (let* ((themes (mapcar #'cdr centaur-theme-alist))
+  (let* ((themes (mapcar #'cdr mzneon-theme-alist))
          (theme (nth (random (length themes)) themes)))
-    (if (eq theme centaur-theme)
-        (centaur-load-random-theme)
-      (centaur--load-theme theme))))
+    (if (eq theme mzneon-theme)
+        (mzneon-load-random-theme)
+      (mzneon--load-theme theme))))
 
-(defun centaur-load-theme (theme &optional no-save)
+(defun mzneon-load-theme (theme &optional no-save)
   "Load color THEME. Save to option `custom-file' if NO-SAVE is nil."
   (interactive
    (list
@@ -469,7 +469,7 @@ This issue has been addressed in 28."
                       `(auto
                         random
                         system
-                        ,@(mapcar #'car centaur-theme-alist))))))
+                        ,@(mapcar #'car mzneon-theme-alist))))))
 
   ;; Disable time-switching themes
   (when (fboundp #'circadian-activate-latest-theme)
@@ -486,7 +486,7 @@ This issue has been addressed in 28."
      (use-package circadian
        :ensure t
        :commands circadian-setup circadian-activate-latest-theme
-       :custom (circadian-themes centaur-auto-themes)
+       :custom (circadian-themes mzneon-auto-themes)
        :init (circadian-setup)))
     ('system
      ;; System-appearance themes
@@ -495,58 +495,58 @@ This issue has been addressed in 28."
        :diminish
        :commands auto-dark-mode
        :init
-       (setq auto-dark-light-theme (alist-get 'light centaur-system-themes)
-             auto-dark-dark-theme (alist-get 'dark centaur-system-themes))
+       (setq auto-dark-light-theme (alist-get 'light mzneon-system-themes)
+             auto-dark-dark-theme (alist-get 'dark mzneon-system-themes))
        (when (and sys/macp (not (display-graphic-p)))
          (setq auto-dark-detection-method 'osascript))
        (auto-dark-mode 1)))
     ('random
-     (centaur-load-random-theme))
+     (mzneon-load-random-theme))
     (_
-     (centaur--load-theme theme)))
+     (mzneon--load-theme theme)))
 
   ;; Set option
-  (centaur-set-variable 'centaur-theme theme no-save))
+  (mzneon-set-variable 'mzneon-theme theme no-save))
 
 (advice-add #'consult-theme :after
             (lambda (theme)
               "Save theme."
-              (centaur-set-variable 'centaur-theme theme)))
+              (mzneon-set-variable 'mzneon-theme theme)))
 
 
 
 ;; Frame
-(defvar centaur-frame--geometry nil)
-(defun centaur-frame--save-geometry ()
+(defvar mzneon-frame--geometry nil)
+(defun mzneon-frame--save-geometry ()
   "Save current frame's geometry."
-  (setq centaur-frame--geometry
+  (setq mzneon-frame--geometry
         `((left   . ,(frame-parameter nil 'left))
           (top    . ,(frame-parameter nil 'top))
           (width  . ,(frame-parameter nil 'width))
           (height . ,(frame-parameter nil 'height))
           (fullscreen))))
 
-(defun centaur-frame--fullscreen-p ()
+(defun mzneon-frame--fullscreen-p ()
   "Return Non-nil if the frame is fullscreen."
   (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
 
-(defun centaur-frame-maximize ()
+(defun mzneon-frame-maximize ()
   "Maximize the frame."
   (interactive)
-  (centaur-frame--save-geometry)
+  (mzneon-frame--save-geometry)
   (unless (eq (frame-parameter nil 'fullscreen) 'maximized)
     (set-frame-parameter nil 'fullscreen 'maximized)))
 
-(defun centaur-frame-restore ()
+(defun mzneon-frame-restore ()
   "Restore the frame's size and position."
   (interactive)
-  (modify-frame-parameters nil centaur-frame--geometry))
+  (modify-frame-parameters nil mzneon-frame--geometry))
 
-(defun centaur-frame-left-half ()
+(defun mzneon-frame-left-half ()
   "Put the frame to the left-half."
   (interactive)
-  (unless (centaur-frame--fullscreen-p)
-    (centaur-frame--save-geometry)
+  (unless (mzneon-frame--fullscreen-p)
+    (mzneon-frame--save-geometry)
     (let* ((attr (frame-monitor-workarea))
            (width (- (/ (nth 2 attr) 2) 20))
            (height (- (nth 3 attr) 30))
@@ -556,11 +556,11 @@ This issue has been addressed in 28."
       (set-frame-position nil left top)
       (set-frame-size nil width height t))))
 
-(defun centaur-frame-right-half ()
+(defun mzneon-frame-right-half ()
   "Put the frame to the right-half."
   (interactive)
-  (unless (centaur-frame--fullscreen-p)
-    (centaur-frame--save-geometry)
+  (unless (mzneon-frame--fullscreen-p)
+    (mzneon-frame--save-geometry)
     (let* ((attr (frame-monitor-workarea))
            (width (- (/ (nth 2 attr) 2) 20))
            (height (- (nth 3 attr) 30))
@@ -570,11 +570,11 @@ This issue has been addressed in 28."
       (set-frame-position nil left top)
       (set-frame-size nil width height t))))
 
-(defun centaur-frame-top-half ()
+(defun mzneon-frame-top-half ()
   "Put the frame to the top-half."
   (interactive)
-  (unless (centaur-frame--fullscreen-p)
-    (centaur-frame--save-geometry)
+  (unless (mzneon-frame--fullscreen-p)
+    (mzneon-frame--save-geometry)
     (let* ((attr (frame-monitor-workarea))
            (width (- (nth 2 attr) 20))
            (height (- (/ (nth 3 attr) 2) 30))
@@ -584,11 +584,11 @@ This issue has been addressed in 28."
       (set-frame-position nil left top)
       (set-frame-size nil width height t))))
 
-(defun centaur-frame-bottom-half ()
+(defun mzneon-frame-bottom-half ()
   "Put the frame to the bottom-half."
   (interactive)
-  (unless (centaur-frame--fullscreen-p)
-    (centaur-frame--save-geometry)
+  (unless (mzneon-frame--fullscreen-p)
+    (mzneon-frame--save-geometry)
     (let* ((attr (frame-monitor-workarea))
            (width (- (nth 2 attr) 20))
            (height (- (/ (nth 3 attr) 2) 30))
