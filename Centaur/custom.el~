@@ -25,6 +25,6 @@
 ;; 或者换源
 ;;(setq centaur-package-archives 'emacs-china)
 (setq centaur-package-archives 'ustc)
-(proxy-http-enable)
-(enable-proxy)
+;;(proxy-http-enable)
+;;(enable-proxy)
 (provide 'custom)

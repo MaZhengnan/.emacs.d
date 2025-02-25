@@ -30,7 +30,7 @@
 
 ;;; Code:
 
-(defconst mznemacs-homepage
+(defconst mzneon-homepage
   "https://github.com/MaZhengnan/.emacs.d"
   "The Github page of Centaur Emacs.")
 (defconst sys/win32p

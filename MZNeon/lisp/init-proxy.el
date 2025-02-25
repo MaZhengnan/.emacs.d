@@ -54,6 +54,6 @@
     (proxy-socks-enable)))
 
 ;; 默认开启 HTTP 和 SOCKS 代理
-(proxy-http-enable)
-(proxy-socks-enable)
+;;(proxy-http-enable)
+;;(proxy-socks-enable)
 (provide 'init-proxy)
