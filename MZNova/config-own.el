@@ -142,10 +142,16 @@
   (dashboard-modify-heading-icons '((recents . "file-text")
 				      (bookmarks . "book")))
   :config
-  ;;(setq dashboard-page-separator "\n\f\n")
+  (setq dashboard-page-separator "\n\f\n")
   (setq dashboard-center-content t ;; set to 't' for centered content
         dashboard-vertically-center-content t)
   (dashboard-setup-startup-hook))
+
+;; Display ugly ^L page breaks as tidy horizontal lines
+(use-package page-break-lines
+  :ensure t
+  :config
+  (global-page-break-lines-mode))
   ;;(add-hook 'dashboard-mode-hook #'fixed-pitch)
 
 (use-package diminish)
