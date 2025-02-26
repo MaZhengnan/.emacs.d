@@ -91,6 +91,41 @@
                               `([,(cdr char-regexp) 0 font-shape-gstring]))))
     (set-char-table-parent composition-ligature-table composition-function-table))
 
+
+;; Fonts
+(defun mzneon-setup-fonts ()
+  "Setup fonts."
+  (when (display-graphic-p)
+    ;; Set default font
+    (cl-loop for font in '("Fira Code" "Jetbrains Mono"
+                           "SF Mono" "Hack" "Source Code Pro" "Menlo"
+                           "Monaco" "DejaVu Sans Mono" "Consolas")
+             return (set-face-attribute 'default nil
+                                        :family font
+                                        :height (cond (sys/macp 150)
+                                                      (sys/win32p 120)
+                                                      (t 100))))
+    ;; Specify font for all unicode characters
+    (cl-loop for font in '("Apple Symbols" "Segoe UI Symbol" "Symbola" "Symbol")
+             return (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))
+
+    ;; Emoji
+    (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji" "Segoe UI Emoji")
+             return (set-fontset-font t
+                                      (if (< emacs-major-version 28)'symbol 'emoji)
+                                      (font-spec :family font) nil 'prepend))
+
+    ;; Specify font for Chinese characters
+    (cl-loop for font in '("LXGW Neo Xihei" "WenQuanYi Micro Hei Mono" "LXGW WenKai Screen"
+                           "LXGW WenKai Mono" "PingFang SC" "Microsoft Yahei UI" "Simhei")
+             return (progn
+                      (setq face-font-rescale-alist `((,font . 1.3)))
+                      (set-fontset-font t 'han (font-spec :family font))))))
+
+(mzneon-setup-fonts)
+(add-hook 'window-setup-hook #'mzneon-setup-fonts)
+(add-hook 'server-after-make-frame-hook #'mzneon-setup-fonts)
+
 (provide 'init-ui)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-ui.el ends here
