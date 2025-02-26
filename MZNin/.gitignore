@@ -1,0 +1,7 @@
+packages/
+elpaca/
+transient/
+*.el~
+*.org~
+init-bak.el
+config.el
