@@ -22,7 +22,7 @@
   (dashboard-no-items-face ((t (:weight normal))))
   :init
   (setq dashboard-banner-logo-title "MZNEON EMACS - Enjoy Programming & Writing"
-        dashboard-buffer-name "*mzn/emacs*"
+        dashboard-buffer-name "*MZNeon Emacs*"
         dashboard-startup-banner (or mzneon-logo 'official)
         dashboard-page-separator "\n\f\n"
         dashboard-projects-backend 'project-el

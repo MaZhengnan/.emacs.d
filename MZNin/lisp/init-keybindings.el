@@ -26,7 +26,7 @@
   
   ;; usually used keybindings
   (mzn/leader-keys
-    "SPC" '(counsel-M-x :wk "Counsel M-x")
+    "SPC" '("M-x" :wk "M-x")
     "." '(find-file :wk "Find file")
     "=" '(perspective-map :wk "Perspective") ;; Lists all the perspective keybindings
     "TAB TAB" '(comment-line :wk "Comment lines")
@@ -35,7 +35,7 @@
   ;; buffers[b] 
   (mzn/leader-keys
     "b" '(:ignore t :wk "Buffers")
-    "b b" '(ivy-switch-buffer :wk "Switch to buffer")
+    "b b" '(consult-buffer :wk "Switch to buffer")
     "b c" '(clone-indirect-buffer :wk "Create indirect buffer copy in a split")
     "b C" '(clone-indirect-buffer-other-window :wk "Clone indirect buffer in new window")
     "b i" '(ibuffer :wk "Ibuffer")

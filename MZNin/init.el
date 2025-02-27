@@ -69,6 +69,6 @@ Otherwise, the startup will be very slow."
 (require 'init-dashboard)
 (require 'init-edit)
 (require 'init-keybindings)
-
+(require 'init-completion)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here
