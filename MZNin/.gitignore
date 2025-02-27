@@ -1,7 +1,10 @@
 packages/
 elpaca/
 transient/
+.cache/
+org-persist/
 *.el~
 *.org~
 init-bak.el
 config.el
+recentf

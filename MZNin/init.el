@@ -1,6 +1,6 @@
 ;;; init.el --- A Fancy and Fast Emacs Configuration.	-*- lexical-binding: t no-byte-compile: t -*-
 
-;; Copyright (C) 2018-2025 Zhengnan Ma 
+;; Copyright (C) 2018-2025 Zhengnan Ma
 
 ;; Author: Zhengnan Ma <mzn83644365@gmail.com>
 ;; URL: https://github.com/MaZhengnan/.emacs.d
@@ -70,5 +70,7 @@ Otherwise, the startup will be very slow."
 (require 'init-edit)
 (require 'init-keybindings)
 (require 'init-completion)
+(require 'init-git)
+(require 'init-treemacs)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here

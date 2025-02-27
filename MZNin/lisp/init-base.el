@@ -1,6 +1,6 @@
 ;; init-base.el --- Initialize basic configurations.	-*- lexical-binding: t -*-
 
-;; Copyright (C) 2018-2025 Zhengnan Ma 
+;; Copyright (C) 2018-2025 Zhengnan Ma
 
 ;; Author: Zhengnan Ma <mzn83644365@gmail.com>
 ;; URL: https://github.com/MaZhengnan/.emacs.d
@@ -80,7 +80,7 @@
   (set-selection-coding-system 'utf-8))
 
 
-;; Sane defaults 
+;; Sane defaults
 ;; Misc
 (if (boundp 'use-short-answers)
     (setq use-short-answers t)
@@ -109,7 +109,7 @@
 (global-auto-revert-mode t)  ;; Automatically show changes if the file has changed
 (global-display-line-numbers-mode 1) ;; Display line numbers
 (global-visual-line-mode t)  ;; Enable truncated lines
-(menu-bar-mode -1)           ;; Disable the menu bar 
+(menu-bar-mode -1)           ;; Disable the menu bar
 (scroll-bar-mode -1)         ;; Disable the scroll bar
 (tool-bar-mode -1)           ;; Disable the tool bar
 (setq inhibit-startup-message t)
@@ -118,7 +118,7 @@
 (setq use-file-dialog nil)   ;; No file dialog
 (setq use-dialog-box nil)    ;; No dialog box
 (setq pop-up-windows nil)    ;; No popup windows
-;; Maximized the emacs windows when it start
+
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 shell-mode-hook
@@ -130,6 +130,7 @@
 (defvar mzn/frame-transparency '(97 . 97))
 (set-frame-parameter (selected-frame) 'alpha mzn/frame-transparency)
 (add-to-list 'default-frame-alist `(alpha . ,mzn/frame-transparency))
+;; Maximized the emacs windows when it start
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
@@ -149,7 +150,7 @@
         gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold #x1000000)) ; 16MB
 
-;; `simple' 
+;; `simple'
 (use-package simple
   :ensure nil
   :hook ((after-init . size-indication-mode)
@@ -198,4 +199,3 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init-base.el ends here
-

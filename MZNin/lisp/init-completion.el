@@ -1,6 +1,6 @@
 ;;; init-completion.el --- Initialize completion configurations.	-*- lexical-binding: t -*-
 
-;; Copyright (C) 2018-2025 Zhengnan Ma 
+;; Copyright (C) 2018-2025 Zhengnan Ma
 
 ;; Author: Zhengnan Ma <mzn83644365@gmail.com>
 ;; URL: https://github.com/MaZhengnan/.emacs.d
@@ -16,7 +16,7 @@
 (use-package vertico
   :init
   (vertico-mode)
-  :bind 
+  :bind
   (:map minibuffer-local-map
         ("C-j" . next-line)
         ("C-k" . previous-line)
@@ -29,14 +29,7 @@
   :init
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion))))
-  :config
-  ;;from https://github.com/tumashu/pyim
-  (defun my-orderless-regexp (orig-func component)
-    (let ((result (funcall orig-func component)))
-      (pyim-cregexp-build result)))
-
-  (advice-add 'orderless-regexp :around #'my-orderless-regexp))
+        completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package vertico-posframe
   :after vertico
@@ -60,7 +53,7 @@
   (:map minibuffer-local-map
         ("C-l" . marginalia-cycle))
   :init
-  ;; Marginalia must be activated in the :init section 
+  ;; Marginalia must be activated in the :init section
   (marginalia-mode))
 
 (use-package nerd-icons-completion
@@ -75,39 +68,88 @@
   (("C-s" . consult-line)
    ("M-y" . consult-yank-pop)
    ("C-x b" . consult-buffer))
-  :custom
-  (consult-preview-key 'any) ;;预览键设置为任何按键，以便在搜索时保持当前缓冲区的位置
-  (consult-async-min-input 2) ;; 设置异步搜索的最小输入字符数
-  (consult-narrow-key "<") ;; 设置缩小范围的键为 "<"
-  (consult-project-root-function
-   (lambda ()
-     (when-let (project (project-current))
-       (car (project-roots project))))))
+  ;; The :init configuration is always executed (Not lazy)
+  :init
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
 
-  (advice-add 'consult--buffer-action :after #'my/buffer-switch-advice)
-  (advice-add 'find-file-at-point :after #'my/buffer-switch-advice)
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
 
-  ;; https://emacs-china.org/t/xxx-thing-at-point/18047/18
-  (defun consult-delete-default-contents()
-    (remove-hook 'pre-command-hook 'consult-delete-default-contents)
-    (cond ((member this-command '(self-insert-command))
-           (delete-minibuffer-contents))
-          (t (put-text-property (minibuffer-prompt-end) (point-max) 'face 'default))))
+  ;; Use Consult to select xref locations with preview
+  (with-eval-after-load 'xref
+    (setq xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref))
+
+  ;; More utils
+  (defvar consult-colors-history nil
+    "History for `consult-colors-emacs' and `consult-colors-web'.")
+
+  ;; No longer preloaded in Emacs 28.
+  (autoload 'list-colors-duplicates "facemenu")
+  ;; No preloaded in consult.el
+  (autoload 'consult--read "consult")
+
+  (defun consult-colors-emacs (color)
+    "Show a list of all supported colors for a particular frame.
+
+You can insert the name (default), or insert or kill the hexadecimal or RGB
+value of the selected COLOR."
+    (interactive
+     (list (consult--read (list-colors-duplicates (defined-colors))
+                          :prompt "Emacs color: "
+                          :require-match t
+                          :category 'color
+                          :history '(:input consult-colors-history))))
+    (insert color))
+
+  ;; Adapted from counsel.el to get web colors.
+  (defun consult-colors--web-list nil
+    "Return list of CSS colors for `counsult-colors-web'."
+    (require 'shr-color)
+    (sort (mapcar #'downcase (mapcar #'car shr-color-html-colors-alist)) #'string-lessp))
+
+  (defun consult-colors-web (color)
+    "Show a list of all CSS colors.\
+
+You can insert the name (default), or insert or kill the hexadecimal or RGB
+value of the selected COLOR."
+    (interactive
+     (list (consult--read (consult-colors--web-list)
+                          :prompt "Color: "
+                          :require-match t
+                          :category 'color
+                          :history '(:input consult-colors-history))))
+    (insert color))
+  :config
+  ;; Optionally configure preview. The default value
+  ;; is 'any, such that any key triggers the preview.
+  ;; (setq consult-preview-key 'any)
+  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+  (setq consult-preview-key nil)
+  ;; For some commands and buffer sources it is useful to configure the
+  ;; :preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
-   consult-line
-   :initial (when-let ((string (thing-at-point 'word)))
-              (add-hook 'pre-command-hook 'consult-delete-default-contents)
-              (propertize string 'face 'shadow)))
-  )
+   consult-line consult-line-multi :preview-key 'any
+   consult-buffer consult-recent-file consult-theme :preview-key '(:debounce 1.0 any)
+   consult-goto-line :preview-key '(:debounce 0.5 any)
+   consult-ripgrep consult-git-grep consult-grep
+   :initial (selected-region-or-symbol-at-point)
+   :preview-key '(:debounce 0.5 any))
 
-;;(use-package wgrep)
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ;; "C-+"
 
-(use-package helpful
-:bind
-   ([remap describe-key]      . helpful-key)
-   ([remap describe-command]  . helpful-command)
-   ([remap describe-variable] . helpful-variable)
-   ([remap describe-function] . helpful-callable))
+  ;; Optionally make narrowing help available in the minibuffer.
+  ;; You may want to use `embark-prefix-help-command' or which-key instead.
+  (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+)
 
 ;; Auto completion
 (use-package corfu

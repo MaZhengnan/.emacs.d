@@ -17,9 +17,9 @@
   ;;:ensure t
   :diminish dashboard-mode
   :custom-face
-  (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
-  (dashboard-items-face ((t (:weight normal))))
-  (dashboard-no-items-face ((t (:weight normal))))
+  (dashboard-heading ((t (:inherit (font-lock-string-face normal)))))
+  (dashboard-items-face ((t (:weight light))))
+  (dashboard-no-items-face ((t (:weight light))))
   :init
   (setq dashboard-banner-logo-title "MZNEON EMACS - Enjoy Programming & Writing"
         dashboard-buffer-name "*MZNeon Emacs*"
@@ -33,6 +33,7 @@
         dashboard-show-shortcuts nil
         dashboard-icon-type 'nerd-icons
         dashboard-set-heading-icons t
+        dashboard-set-file-icons t
         dashboard-items '((recents  . 10)
                           (bookmarks . 5)
                           (projects . 5))
