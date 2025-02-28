@@ -140,13 +140,22 @@ See `browse-url' for more details."
 
 ;; Making the file in the middle of the frame.
 (defun org-mode-visual-fill ()
-    (setq visual-fill-column-width 110
-          visual-fill-column-center-text t)
+    (setq visual-fill-column-width  (if sys/win32p 110 90))
+    (setq visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
     :after org
     :hook (org-mode . org-mode-visual-fill))
+
+(use-package org-superstar
+  :ensure t
+  :after org
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")  ; 自定义标题符号
+        org-superstar-item-bullet "■"  ; 自定义项目符号
+        org-superstar-remove-leading-stars t))  ; 移除标题中的星号（*）
 
 ;;Quickly create a code block in org file.
 

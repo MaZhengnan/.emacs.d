@@ -1,7 +1,6 @@
 #+TITLE: MZNexus Emacs Confituration
 #+AUTHOR: Ma Zhengnan (MZN)
 #+DESCRIPTION: MZNexus Emacs config include MZNova and MZNeon now.
-#+STARTUP: showeverything
 #+OPTIONS: toc:2
 
 * Table of Contents :toc:
@@ -12,6 +11,7 @@
   - [[#proxy-set-up][Proxy set up]]
   - [[#transient][transient]]
   - [[#the-list-of-elpaca-cannot-download-packages][The list of Elpaca cannot download packages]]
+  - [[#org-mode-configure][Org-mode configure]]
 - [[#how-to-ues-chemacs-2][How to ues =Chemacs 2=]]
 - [[#name-my-emacs-configuration][Name my Emacs configuration]]
 
@@ -24,6 +24,7 @@ emacs --with-profile=Nova
 
 sh install.sh # run .sh file in windows terminal.
 #+end_src
+
 * MZNexus
 =MZNexus= is a multiple emacs configuration project.
 And I am using [[https://github.com/plexus/chemacs2/tree/main][Chemacs 2]] as Emacs profile switcher, it makes it easy to run multiple Emacs configurations side by side. Here I also refer to [[https://systemcrafters.net/emacs-tips/multiple-configurations-with-chemacs2/][System Crafters' blog post]].
