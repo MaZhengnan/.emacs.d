@@ -47,14 +47,10 @@
                                   (projects  . "nf-oct-briefcase")
                                   (registers . "nf-oct-database"))
           dashboard-startupify-list '(dashboard-insert-banner
-                                      dashboard-insert-newline
                                       dashboard-insert-banner-title
-                                      dashboard-insert-newline
                                       dashboard-insert-navigator
-                                      dashboard-insert-newline
                                       dashboard-insert-init-info
                                       dashboard-insert-items
-                                      dashboard-insert-newline
                                       dashboard-insert-footer))
 
   (dashboard-setup-startup-hook))

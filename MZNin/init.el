@@ -72,5 +72,6 @@ Otherwise, the startup will be very slow."
 (require 'init-completion)
 (require 'init-git)
 (require 'init-treemacs)
+(require 'init-org)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here

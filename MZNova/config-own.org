@@ -58,12 +58,10 @@ This part is the basic configuration.
 (require 'buffer-move)   ;; Buffer-move for better window management
 (require 'eshell-prompt) ;; A fancy prompt for eshell
 #+end_src
-
 ** Identify the operating system 
 #+begin_src emacs-lisp
 (setq mzn/is-windows (eq system-type 'windows-nt))
 #+end_src
-
 ** Setting up font size
 #+begin_src emacs-lisp
  
