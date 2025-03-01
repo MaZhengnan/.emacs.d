@@ -123,7 +123,6 @@ I use the same paths in Macos and Linux.
 (defvar mzn/code-path (if mzn/is-windows
                           mzn/windows-code-path
                         mzn/unix-code-path))
-
 #+end_src
 
 ** Transient

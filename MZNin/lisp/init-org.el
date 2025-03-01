@@ -14,7 +14,7 @@
 
 ;;; Code:
 
-;; Browse URL
+
 (eval-when-compile
   (require 'init-custom))
 
@@ -46,8 +46,42 @@ See `browse-url' for more details."
           (pop-to-buffer buf)
         (switch-to-buffer buf)))))
 
+(defun mzn/org-font-setup ()
+  (interactive)
+  (variable-pitch-mode 1)
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+  ;; Set faces for heading levels
+  (dolist (face '((org-level-1 . 1.5)
+                  (org-level-2 . 1.4)
+                  (org-level-3 . 1.3)
+                  (org-level-4 . 1.2)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.0)
+                  (org-level-7 . 1.0)
+                  (org-level-8 . 1.0)
+		    )))
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
+
+
+;; Org mode use variable-petch-mode
+(add-hook 'org-mode-hook 'mzn/org-font-setup)
+
 ;; Display images after executing org-babel
 (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+
 
 (add-hook 'org-mode-hook
           (lambda ()
@@ -106,7 +140,7 @@ See `browse-url' for more details."
       org-log-done 'time
       org-catch-invisible-edits 'smart
       org-startup-indented t
-      org-ellipsis (if (char-displayable-p ?⏷) "\t⏷" nil)
+      org-ellipsis " ⤵"
       org-pretty-entities nil
       org-hide-emphasis-markers t
       ;; Babel

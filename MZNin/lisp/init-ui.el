@@ -12,6 +12,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'init-base))
+
 ;; theme
 (use-package doom-themes
   :init (load-theme 'doom-dracula t))
@@ -95,34 +98,74 @@
 
 ;; Fonts
 (defun mzneon-setup-fonts ()
-  "Setup fonts."
+  "Setup fonts based on OS type."
   (when (display-graphic-p)
-    ;; Set default font
-    (cl-loop for font in '("Fira Code" "Jetbrains Mono"
-                           "SF Mono" "Hack" "Source Code Pro" "Menlo"
-                           "Monaco" "DejaVu Sans Mono" "Consolas")
-             return (set-face-attribute 'default nil
-                                        :family font
-                                        :height (cond (sys/macp 180)
-                                                      (sys/win32p 120)
-                                                      (t 100))))
-    ;; Specify font for all unicode characters
-    (cl-loop for font in '("Apple Symbols" "Segoe UI Symbol" "Symbola" "Symbol")
-             do (message "Setting font: %s" font)
-             return (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))
+    ;; Set default font based on OS
+    (set-face-attribute 'default nil
+                        :family (cond
+                                 (sys/macp "Fira Code")       ;; macOS
+                                 (sys/win32p "Fira Code")  ;; Windows
+                                 (gnu/linux "Fira Code")  ;; Linux
+                                 (t "Monospace"))  ;; 其他系统默认
+                        :height (cond
+                                 (sys/macp 180)   ;; macOS
+                                 (sys/win32p 120) ;; Windows
+                                 (gnu/linux 110) ;; Linuxx
+                                 (t 100)))       ;; 默认值
+    ;; Set fixed-pitch font based on OS
+    (set-face-attribute 'fixed-pitch nil
+                        :family (cond
+                                 (sys/macp "Fira Code")       ;; macOS
+                                 (sys/win32p "Fira Code")  ;; Windows
+                                 (gnu/linux "Fira Code")  ;; Linux
+                                 (t "Monospace"))  ;; 其他系统默认
+                        :height (cond
+                                 (sys/macp 180)   ;; macOS
+                                 (sys/win32p 120) ;; Windows
+                                 (gnu/linux 110) ;; Linuxx
+                                 (t 100)))       ;; 默认值
 
-    ;; Emoji
-    (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji" "Segoe UI Emoji")
-             return (set-fontset-font t
-                                      (if (< emacs-major-version 28)'symbol 'emoji)
-                                      (font-spec :family font) nil 'prepend))
+    ;; Set default font based on OS
+    (set-face-attribute 'variable-pitch nil
+                        :family (cond
+                                 (sys/macp "Cantarell")       ;; macOS
+                                 (sys/win32p "Cantarell")  ;; Windows
+                                 (gnu/linux "Cantarell")  ;; Linux
+                                 (t "Monospace"))  ;; 其他系统默认
+                        :height (cond
+                                 (sys/macp 180)   ;; macOS
+                                 (sys/win32p 120) ;; Windows
+                                 (gnu/linux 110) ;; Linuxx
+                                 (t 100)))       ;; 默认值
 
-    ;; Specify font for Chinese characters
-    (cl-loop for font in '("LXGW Neo Xihei" "WenQuanYi Micro Hei Mono" "LXGW WenKai Screen"
-                           "LXGW WenKai Mono" "PingFang SC" "Microsoft Yahei UI" "Simhei")
-             return (progn
-                      (setq face-font-rescale-alist `((,font . 1.3)))
-                      (set-fontset-font t 'han (font-spec :family font))))))
+
+
+    ;; Unicode symbols
+    (set-fontset-font t 'symbol (font-spec :family
+                                           (cond
+                                            (sys/macp "Apple Symbols")
+                                            (sys/win32p "Segoe UI Symbol")
+                                            (gnu/linux "Symbola")
+                                            (t "Symbol"))) nil 'prepend)
+
+    ;; Emoji fonts
+    (set-fontset-font t (if (< emacs-major-version 28) 'symbol 'emoji)
+                      (font-spec :family
+                                 (cond
+                                  (sys/macp "Apple Color Emoji")
+                                  (sys/win32p "Segoe UI Emoji")
+                                  (gnu/linux "Noto Color Emoji")
+                                  (t "Noto Color Emoji"))) nil 'prepend)
+
+    ;; Chinese fonts
+    (let ((chinese-font (cond
+                         (sys/macp "PingFang SC")
+                         (sys/win32p "Microsoft YaHei UI")
+                         (gnu/linux "LXGW WenKai Mono")
+                         (t "LXGW Neo Xihei"))))
+      (when (find-font (font-spec :name chinese-font))
+        (setq face-font-rescale-alist `((,chinese-font . 1.3)))
+        (set-fontset-font t 'han (font-spec :family chinese-font))))))
 
 (mzneon-setup-fonts)
 (add-hook 'window-setup-hook #'mzneon-setup-fonts)
