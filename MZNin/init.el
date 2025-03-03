@@ -68,10 +68,17 @@ Otherwise, the startup will be very slow."
 (require 'init-ui)
 (require 'init-dashboard)
 (require 'init-edit)
+(require 'init-elisp)
 (require 'init-keybindings)
 (require 'init-completion)
 (require 'init-git)
 (require 'init-treemacs)
 (require 'init-org)
+(require 'init-elisp)
+(require 'init-snippet)
+(require 'init-lsp)
+(require 'init-prog)
+(require 'init-c)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; init.el ends here

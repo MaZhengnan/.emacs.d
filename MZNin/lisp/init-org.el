@@ -54,7 +54,7 @@ See `browse-url' for more details."
                           '(("^ *\\([-]\\) "
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
   ;; Set faces for heading levels
-  (dolist (face '((org-level-1 . 1.5)
+  (dolist (face '((org-level-1 . 1.7)
                   (org-level-2 . 1.4)
                   (org-level-3 . 1.3)
                   (org-level-4 . 1.2)
@@ -74,7 +74,6 @@ See `browse-url' for more details."
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
-
 
 ;; Org mode use variable-petch-mode
 (add-hook 'org-mode-hook 'mzn/org-font-setup)

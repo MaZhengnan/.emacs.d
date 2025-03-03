@@ -12,6 +12,8 @@
   - [[#transient][transient]]
   - [[#the-list-of-elpaca-cannot-download-packages][The list of Elpaca cannot download packages]]
   - [[#org-mode-configure][Org-mode configure]]
+  - [[#completion][Completion]]
+  - [[#how-to-use-lsp-mode][How to use lsp-mode]]
 - [[#how-to-ues-chemacs-2][How to ues =Chemacs 2=]]
 - [[#name-my-emacs-configuration][Name my Emacs configuration]]
 
@@ -68,7 +70,7 @@ saveplace                      failed               Unable to determine repo dir
 #+end_src
 
 - =recentf= in =init-base.el=
-- =time= in =init-ui.el=, line number is about ~187~
+- =time= in =init-ui.el=, line number is about ~187~ 
 
 ** Org-mode configure
 There are many packages which are in the =Centaur Emacs= that I don't use in my configuration.
@@ -79,6 +81,13 @@ There are many packages which are in the =Centaur Emacs= that I don't use in my 
 - ~org-mine~ Using emails in org-mode. I don't need it now. Maybe I need it in the future.
 - ~ox-gfm~ is a package to export the .md file.
 - ~org-rich-yank~ When you paste source code into an Org-mode file, org-rich-yank automatically wraps it in #+BEGIN_SRC and #+END_SRC blocks and adds the appropriate language tags. *I use it now!*
+
+** Completion
+
+I use ~corfu~ and ~cepe~ to complete code. And I disable it in =org-mode=, But I want to use it in the =code-block=, I didn't fix it now.
+  
+** How to use lsp-mode
+
 
 * How to ues =Chemacs 2=
 I make some changes to =Chemacs 2=

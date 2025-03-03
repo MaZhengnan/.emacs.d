@@ -11,7 +11,6 @@
 ;; General keybindings configurations.
 ;;
 ;;; Code:
-
 ;; Optionally use the `orderless' completion style.
 (use-package vertico
   :init
@@ -151,42 +150,52 @@ value of the selected COLOR."
   :hook (completion-list-mode . consult-preview-at-point-mode)
 )
 
-;; Auto completion
 (use-package corfu
-  :init
+  ;; TAB-and-Go customizations
   :custom
-  (corfu-auto t)
-  (corfu-auto-prefix 2)
-  (corfu-preview-current nil)
-  (corfu-auto-delay 0.2)
-  (corfu-popupinfo-delay '(0.4 . 0.2))
+  (corfu-cycle t)           ;; Enable cycling for `corfu-next/previous'
+  (corfu-quit-no-match t)      ;; Never quit, even if there is no match
+  (corfu-auto        t)
+  (corfu-auto-delay  0.2)
+  (corfu-auto-prefix 3)
+  (corfu-preselect 'prompt) ;; Always preselect the prompt
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))
-  :bind ("M-/" . completion-at-point)
-  :hook ((after-init . global-corfu-mode)
-         (global-corfu-mode . corfu-popupinfo-mode)))
+  ;; Use TAB for cycling, default is `corfu-complete'.
+  :bind
+  (:map corfu-map
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous))
 
-;;(use-package corfu-terminal
-;;  :hook (global-corfu-mode . corfu-terminal-mode)))
+  :init
+  (global-corfu-mode))
+;; Disable org-mode `completion'.
+;; (with-eval-after-load 'org
+;; (add-hook 'org-mode-hook (lambda () (corfu-mode -1)))
+;; (add-hook 'org-src-mode-hook
+;;           (lambda ()
+;;             (when (not (corfu-mode))
+;;               (corfu-mode 1))));; A few more useful configurations...
+;; )
 
-;; A few more useful configurations...
 (use-package emacs
   :ensure nil
   :custom
   ;; TAB cycle if there are only few candidates
   ;; (completion-cycle-threshold 3)
-
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
-  (tab-always-indent 'complete)
+  ;;(tab-always-indent 'complete)
 
-  ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
-  ;; try `cape-dict'.
+  ;; Emacs 30 and newer: Disable Ispell completion function.
+  ;; Try `cape-dict' as an alternative.
   (text-mode-ispell-word-completion nil)
 
-  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
-  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
-  ;; setting is useful beyond Corfu.
+  ;; Hide commands in M-x which do not apply to the current mode.  Corfu
+  ;; commands are hidden, since they are not used via M-x. This setting is
+  ;; useful beyond Corfu.
   (read-extended-command-predicate #'command-completion-default-include-p))
 
 (use-package nerd-icons-corfu
@@ -199,6 +208,7 @@ value of the selected COLOR."
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
 

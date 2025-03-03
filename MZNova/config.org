@@ -813,7 +813,6 @@ Adding highlights to TODO and related words.
 
 * LANGUAGE SUPPORT
 Emacs has built-in programming language modes for Lisp, Scheme, DSSSL, Ada, ASM, AWK, C, C++, Fortran, Icon, IDL (CORBA), IDLWAVE, Java, Javascript, M4, Makefiles, Metafont, Modula2, Object Pascal, Objective-C, Octave, Pascal, Perl, Pike, PostScript, Prolog, Python, Ruby, Simula, SQL, Tcl, Verilog, and VHDL.  Other languages will require you to install additional modes.
-
 ** Code completion
 #+begin_src emacs-lisp
 ;;----------------- C/Cpp Mode -------------------------------;;

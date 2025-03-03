@@ -18,6 +18,7 @@
 ;; theme
 (use-package doom-themes
   :init (load-theme 'doom-dracula t))
+  ;; :init (load-theme 'doom-one t))
 
 ;; `doom-modeline'
 (use-package doom-modeline
