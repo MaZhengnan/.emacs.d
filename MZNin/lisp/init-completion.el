@@ -150,6 +150,7 @@ value of the selected COLOR."
   :hook (completion-list-mode . consult-preview-at-point-mode)
 )
 
+
 (use-package corfu
   ;; TAB-and-Go customizations
   :custom
@@ -213,6 +214,19 @@ value of the selected COLOR."
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
 
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+
+;; (use-package cape
+;;   :init
+;;   (defun my/setup-capf ()
+;;     (setq-local completion-at-point-functions
+;;                 (list (cape-super-capf
+;;                        #'eglot-completion-at-point
+;;                        #'cape-file
+;;                        #'cape-keyword
+;;                        #'cape-dabbrev
+;;                        #'cape-symbol))))
+;;   :hook ((prog-mode . my/setup-capf)
+;;          (text-mode . my/setup-capf)))
 
 (provide 'init-completion)
 
