@@ -22,18 +22,31 @@
   :init
   (setq-default prettify-symbols-alist mzneon-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
+(use-package treesit
+  :ensure nil
+  :after treesit-auto
+  :config
+  (setq treesit-extra-grammar-compiler-options '("-std=c99"))
+  (treesit-auto-install-all))
 
 ;; Tree-sitter support
 (use-package treesit-auto
-  :hook (after-init . global-treesit-auto-mode)
-  :init (setq treesit-auto-install 'prompt)))
+  :demand
+  :custom
+  (treesit-auto-install 'prompt)
+  :init
+  (progn
+    (setq treesit-font-lock-level 4)
+    (add-to-list 'major-mode-remap-alist '(c++-mode . c-ts-mode)))
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
   :ensure nil
   :diminish
   :config
-  (when (childframe-workable-p)
     (use-package eldoc-box
       :diminish (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
       :custom
@@ -47,7 +60,7 @@
       :config
       ;; Prettify `eldoc-box' frame
       (setf (alist-get 'left-fringe eldoc-box-frame-parameters) 8
-            (alist-get 'right-fringe eldoc-box-frame-parameters) 8))))
+            (alist-get 'right-fringe eldoc-box-frame-parameters) 8)))
 
 ;; Search tool
 (use-package grep
