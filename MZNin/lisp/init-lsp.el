@@ -16,34 +16,27 @@
 (use-package eglot
   :ensure nil
   :hook
-  ((c-mode . eglot-ensure)          ;; C
-   (python-mode . eglot-ensure)     ;; Python
-   (go-mode . eglot-ensure)         ;; Go
-   (js-mode . eglot-ensure)         ;; JavaScript
-   (html-mode . eglot-ensure)       ;; HTML
-   (css-mode . eglot-ensure)        ;; CSS
-   (vue-mode . eglot-ensure))       ;; Vue.js
+  ((c-mode . eglot-ensure)
+   (python-mode . eglot-ensure)
+   (go-mode . eglot-ensure)
+   (js-mode . eglot-ensure)
+   (html-mode . eglot-ensure)
+   (css-mode . eglot-ensure)
+   (web-mode . eglot-ensure)) ;; Vue 也用 web-mode
   :init
-  (setq read-process-output-max (* 1024 1024)) ; 1MB
-  (setq eglot-autoshutdown t
-        eglot-events-buffer-size 0
-        eglot-send-changes-idle-time 0.5)
+  (setq read-process-output-max (* 1024 1024) ; 1MB
+        eglot-autoshutdown t
+        eglot-events-buffer-size 0)
   :config
-  (add-to-list 'eglot-server-programs
-               '((c-mode c++-mode) . ("clangd")))
-  (add-to-list 'eglot-server-programs
-               '(python-mode . ("pylsp")))
-  (add-to-list 'eglot-server-programs
-               '(go-mode . ("gopls")))
-  (add-to-list 'eglot-server-programs
-               '(js-mode . ("typescript-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '(html-mode . ("vscode-html-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '(css-mode . ("vscode-css-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '(vue-mode . ("vls")))
-)
+  (setq eglot-server-programs
+        '(((c-mode c++-mode) . ("clangd"))
+          (python-mode . ("pylsp"))
+          (go-mode . ("gopls"))
+          (js-mode . ("typescript-language-server" "--stdio"))
+          (html-mode . ("vscode-html-language-server" "--stdio"))
+          (css-mode . ("vscode-css-language-server" "--stdio"))
+          (web-mode . ("vls"))))) ;; Vue 使用 web-mode
+
 
 (add-hook 'before-save-hook 'eglot-format-buffer)
 
